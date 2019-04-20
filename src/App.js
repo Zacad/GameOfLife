@@ -1,7 +1,45 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import initBoard from './utils/initBoard'
+import Board from './components/Board'
+import Navbar from './components/Navbar'
+import nextGeneration from './utils/nextGeneration'
+import newFieldState from './utils/newFieldState'
 
+
+const App = () => {
+  //const  board = initBoard(5,5)
+  //toggleField(12,board)
+  const [gameState, setGameState] = useState(false)
+  const [board, setBoard] = useState(initBoard(40,40))
+  const [gameInterval, setGameInterval] = useState(false)
+
+  const newBoard = board => {
+    setBoard(board => nextGeneration(board))
+    console.log(board)
+    //newFieldState(1,1,board)
+
+  }
+
+  useEffect(() => {
+    if (gameState === true) {
+      setGameInterval(setInterval(newBoard, 50, board))
+    }
+    else {
+      clearInterval(gameInterval)
+    }
+  },[gameState])
+
+
+  return (
+    <main className="flex flex-column">
+      <Navbar gameState={gameState} setGameState={setGameState} />
+      <Board data={board} gameState={gameState} setBoard={setBoard} />
+    </main>
+  )
+}
+
+/*
 class App extends Component {
   render() {
     return (
@@ -24,5 +62,6 @@ class App extends Component {
     );
   }
 }
+*/
 
 export default App;
