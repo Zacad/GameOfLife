@@ -4,21 +4,15 @@ import initBoard from './utils/initBoard'
 import Board from './components/Board'
 import Navbar from './components/Navbar'
 import nextGeneration from './utils/nextGeneration'
-import newFieldState from './utils/newFieldState'
 
 
 const App = () => {
-  //const  board = initBoard(5,5)
-  //toggleField(12,board)
   const [gameState, setGameState] = useState(false)
   const [board, setBoard] = useState(initBoard(40,40))
   const [gameInterval, setGameInterval] = useState(false)
 
   const newBoard = board => {
     setBoard(board => nextGeneration(board))
-    console.log(board)
-    //newFieldState(1,1,board)
-
   }
 
   useEffect(() => {
@@ -33,7 +27,7 @@ const App = () => {
 
   return (
     <main className="flex flex-column">
-      <Navbar gameState={gameState} setGameState={setGameState} />
+      <Navbar gameState={gameState} setGameState={setGameState} setBoard={setBoard} />
       <Board data={board} gameState={gameState} setBoard={setBoard} />
     </main>
   )
