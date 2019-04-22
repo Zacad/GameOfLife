@@ -1,3 +1,3 @@
 
-##Game of life
+## Game of life
 Written with React
