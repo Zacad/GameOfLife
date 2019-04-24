@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 
-const InitPopup = ({ closeFn, actionFn }) => {
-  const [rows, setRows] = useState(50);
-  const [columns, setColumns] = useState(50);
+const InitPopup = ({ closeFn, actionFn, board }) => {
+  const [numberOfFields, setNumberOfFields] = useState(50);
 
-  const init = () => {
-    actionFn(rows, columns);
+  const draw = () => {
+    actionFn(numberOfFields, board);
     closeFn();
   };
 
@@ -17,7 +16,7 @@ const InitPopup = ({ closeFn, actionFn }) => {
         width: "100vw",
         height: "100vh"
       }}
-      onClick={/*closeFn*/ () => true}
+      onClick={closeFn}
     >
       <div
         className="pa3 flex flex-column bg-white items-center justify-center"
@@ -27,27 +26,19 @@ const InitPopup = ({ closeFn, actionFn }) => {
         }}
       >
         <form className="flex flex-column">
-          <label className="pa2">Number of rows</label>
+          <label className="pa2">Number of fields to draw</label>
           <input
             className="pa2"
             type="text"
             name="rows"
-            value={rows}
-            onChange={e => setRows(e.target.value)}
-          />
-          <label className="pa2">Number of columns</label>
-          <input
-            className="pa2"
-            type="text"
-            name="columns"
-            value={columns}
-            onChange={e => setColumns(e.target.value)}
+            value={numberOfFields}
+            onChange={e => setNumberOfFields(e.target.value)}
           />
           <input
             className="pa2 ma2 bg-blue white bn br3"
             type="submit"
             value="init"
-            onClick={init}
+            onClick={draw}
           />
         </form>
       </div>

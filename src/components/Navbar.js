@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import initBoard from "../utils/initBoard";
+import drawFields from "../utils/drawFields";
 import InitPopup from "./InitPopup";
+import DrawPopup from "./DrawPopup";
 
-const Navbar = ({ gameState, setGameState, setBoard }) => {
-  const [initPopupVisibility, setInitPopupVisibility] = useState(false);
+const Navbar = ({ gameState, setGameState, setBoard, board }) => {
+  const [drawPopupVisibility, setDrawPopupVisibility] = useState(false);
   const [initialized, setInitialized] = useState(false);
 
   const closeInitPopup = () => {
     setInitialized(true);
   };
 
-  const openInitPopup = () => {
-    setInitPopupVisibility(true);
+  const openDrawPopup = () => {
+    setDrawPopupVisibility(true);
+  };
+
+  const closeDrawPopup = () => {
+    setDrawPopupVisibility(false);
   };
 
   const toggleGameState = () => {
@@ -20,6 +26,10 @@ const Navbar = ({ gameState, setGameState, setBoard }) => {
 
   const resetBoard = (rows = 50, columns = 50) => {
     return !gameState ? setBoard(initBoard(rows, columns)) : "";
+  };
+
+  const drawBoard = (numberOfFields = 20, board) => {
+    return !gameState ? setBoard(drawFields(numberOfFields, board)) : "";
   };
 
   return (
@@ -38,12 +48,24 @@ const Navbar = ({ gameState, setGameState, setBoard }) => {
       </button>
       <button
         className="ma2 pa2 br3 bn bg-blue white dim"
-        onClick={openInitPopup}
+        onClick={openDrawPopup}
       >
-        Random Init
+        Draw board
       </button>
+      <div>
+        <p>Game state: {gameState ? "running" : "stopped"}</p>
+      </div>
       {!initialized ? (
         <InitPopup closeFn={closeInitPopup} actionFn={resetBoard} />
+      ) : (
+        ""
+      )}
+      {drawPopupVisibility ? (
+        <DrawPopup
+          closeFn={closeDrawPopup}
+          actionFn={drawBoard}
+          board={board}
+        />
       ) : (
         ""
       )}

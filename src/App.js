@@ -1,37 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import initBoard from './utils/initBoard'
-import Board from './components/Board'
-import Navbar from './components/Navbar'
-import nextGeneration from './utils/nextGeneration'
-
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import initBoard from "./utils/initBoard";
+import Board from "./components/Board";
+import Navbar from "./components/Navbar";
+import nextGeneration from "./utils/nextGeneration";
 
 const App = () => {
-  const [gameState, setGameState] = useState(false)
-  const [board, setBoard] = useState(initBoard(40,40))
-  const [gameInterval, setGameInterval] = useState(false)
+  const [gameState, setGameState] = useState(false);
+  const [board, setBoard] = useState(initBoard(40, 40));
+  const [gameInterval, setGameInterval] = useState(false);
 
   const newBoard = board => {
-    setBoard(board => nextGeneration(board))
-  }
+    setBoard(board => nextGeneration(board));
+  };
 
-  useEffect(() => {
-    if (gameState === true) {
-      setGameInterval(setInterval(newBoard, 50, board))
-    }
-    else {
-      clearInterval(gameInterval)
-    }
-  },[gameState])
-
+  useEffect(
+    () => {
+      if (gameState === true) {
+        setGameInterval(setInterval(newBoard, 50, board));
+      } else {
+        clearInterval(gameInterval);
+      }
+    },
+    [gameState]
+  );
 
   return (
     <main className="flex flex-column">
-      <Navbar gameState={gameState} setGameState={setGameState} setBoard={setBoard} />
+      <Navbar
+        gameState={gameState}
+        setGameState={setGameState}
+        setBoard={setBoard}
+        board={board}
+      />
       <Board data={board} gameState={gameState} setBoard={setBoard} />
     </main>
-  )
-}
+  );
+};
 
 /*
 class App extends Component {
